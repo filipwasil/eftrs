@@ -10,18 +10,22 @@ extern crate log;
 extern crate Ammo;
 extern crate Weapons;
 
-struct Application
-{
+struct Application {
     ammunitionManager: Weapons::AmmunitionManager,
 }
 
 impl Application {
     fn new() -> Application {
-        Application { ammunitionManager: Weapons::AmmunitionManager::new() }
+        Application {
+            ammunitionManager: Weapons::AmmunitionManager::new(),
+        }
     }
 
     fn get_weapon(&self, name: &str) -> Result<Weapons::Weapon, &str> {
-        Ok(Weapons::Weapon::new(name, self.ammunitionManager.get_ammunition(name)?))
+        Ok(Weapons::Weapon::new(
+            name,
+            self.get_ammunition(name)?,
+        ))
     }
 
     fn help() {
@@ -37,9 +41,8 @@ fn main() {
 
     let app = Application::new();
 
-    match app.get_weapon(&arguments[1])
-    {
+    match app.get_weapon(&arguments[1]) {
         Ok(weapon) => println!("{}", weapon),
-        Err(err) => println!("{}", err) 
+        Err(err) => println!("{}", err),
     }
 }
