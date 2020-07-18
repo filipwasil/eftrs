@@ -6,8 +6,10 @@ mod tests {
     }
 }
 
-struct Mod
+pub struct Mod
 {
-    name: String,
-
+    pub name: String,
+    pub prize: u32,
+    pub mount_name: String
 }
+

@@ -8,3 +8,4 @@ edition = "2018"
 
 [dependencies]
 Ammo = { path = "../Ammo"}
+Mods = { path = "../Mods"}

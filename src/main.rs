@@ -10,38 +10,36 @@ extern crate log;
 extern crate Ammo;
 extern crate Weapons;
 
-struct Application {
-    ammunitionManager: Weapons::AmmunitionManager,
+struct Application
+{
+    weapons_factory: Weapons::WeaponFactory
 }
 
-impl Application {
-    fn new() -> Application {
-        Application {
-            ammunitionManager: Weapons::AmmunitionManager::new(),
-        }
+impl Application
+{
+    pub fn new() -> Application
+    {
+        Application {weapons_factory: Weapons::WeaponFactory::new()}
     }
 
-    fn get_weapon(&self, name: &str) -> Result<Weapons::Weapon, &str> {
-        Ok(Weapons::Weapon::new(
-            name,
-            self.get_ammunition(name)?,
-        ))
-    }
-
-    fn help() {
-        println!("Please pass weapon name:")
+    pub fn help()
+    {
+        println!("Wrong number of arguments");
     }
 }
 
 fn main() {
     let arguments: Vec<String> = env::args().collect();
-    if arguments.len() != 2 {
+
+    let argc = arguments.len();
+    if argc < 2 {
         Application::help();
+        return;
     }
 
     let app = Application::new();
 
-    match app.get_weapon(&arguments[1]) {
+    match app.weapons_factory.get_weapon(arguments[1].to_string()) {
         Ok(weapon) => println!("{}", weapon),
         Err(err) => println!("{}", err),
     }
